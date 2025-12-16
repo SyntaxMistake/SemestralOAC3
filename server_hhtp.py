@@ -94,6 +94,9 @@ def health():
     This endpoint can be pinged by external monitoring services (e.g., UptimeRobot, 
     cron-job.org) to keep the server active on platforms like Render that may 
     spin down free-tier services after periods of inactivity.
+    
+    Returns:
+        JSON response with status "ok" and a message indicating the server is running.
     """
     return jsonify({"status": "ok", "message": "Server is running"})
 
