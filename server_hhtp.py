@@ -4,6 +4,7 @@
 #  - POST /connect        -> { "player_id": 0|1 }  (400 if full)
 #  - GET  /state          -> full state JSON
 #  - POST /move           -> { "player": id, "z":.., "y":.., "x":.. } -> updated state or 400
+#  - GET  /health         -> { "status": "ok", "message": "..." } (keep-alive endpoint)
 #
 from flask import Flask, request, jsonify
 import os
@@ -85,6 +86,19 @@ def disconnect():
         if pid in players:
             players[pid] = False
     return jsonify({"ok": True})
+
+@app.route("/health", methods=["GET"])
+def health():
+    """Health check endpoint to prevent server shutdown due to inactivity.
+    
+    This endpoint can be pinged by external monitoring services (e.g., UptimeRobot, 
+    cron-job.org) to keep the server active on platforms like Render that may 
+    spin down free-tier services after periods of inactivity.
+    
+    Returns:
+        JSON response with status "ok" and a message indicating the server is running.
+    """
+    return jsonify({"status": "ok", "message": "Server is running"})
 
 @app.route("/state", methods=["GET"])
 def get_state():
