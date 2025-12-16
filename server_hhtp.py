@@ -4,7 +4,7 @@
 #  - POST /connect        -> { "player_id": 0|1 }  (400 if full)
 #  - GET  /state          -> full state JSON
 #  - POST /move           -> { "player": id, "z":.., "y":.., "x":.. } -> updated state or 400
-#  - GET  /health         -> { "status": "ok" } (keep-alive endpoint)
+#  - GET  /health         -> { "status": "ok", "message": "..." } (keep-alive endpoint)
 #
 from flask import Flask, request, jsonify
 import os
